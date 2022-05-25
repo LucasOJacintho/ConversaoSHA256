@@ -17,21 +17,20 @@ import java.nio.charset.StandardCharsets;
 
 public class Conversao {
 
-    //static Scanner teclado = new Scanner(System.in);
-
     public static void main(String[] args) throws IOException {
 
-        //File diretorioInserido = new File(teclado.next());
-        //System.out.println(diretorioInserido);
+        File diretorioCompleto = new File("C:/Converter"); // Necessário fornecer o Deksktop certo
 
-        //String diretorio = System.getProperty("user.home");
-        //System.out.println(diretorio + "\\OneDrive - Iteris Consultoria e Software\\Área de Trabalho\\folder"); // Necessário fornecer o Deksktop certo
-        //System.out.println(diretorio);
+        Workbook planilhaOriginal;
 
-        File diretorioCompleto = new File("C:/Users/lucas.jacintho/OneDrive - Iteris Consultoria e Software/Área de Trabalho/folder"); // Necessário fornecer o Deksktop certo
-
-        FileInputStream file = new FileInputStream(diretorioCompleto + "/Arquivo.xlsx"); // Abrindo o arquivo Excel
-        Workbook planilhaOriginal = new XSSFWorkbook(file); // Importando o arquivo para o Java
+        try  {
+            FileInputStream planilha = new FileInputStream(diretorioCompleto + "/Arquivo.xlsx"); // Abrindo o arquivo Excel
+            planilhaOriginal = new XSSFWorkbook(planilha); // Importando o arquivo para o Java
+        }
+        catch(Exception e){
+            System.out.println("O Arquivo não foi encontrado\n Qualquer dúvida sobre a utilização desse software, recomendamos a leitura de seu Readme");
+            throw new IOException();
+        }
 
         trabalharTabela(planilhaOriginal);
 
@@ -43,11 +42,12 @@ public class Conversao {
     private static void trabalharTabela(@NotNull Workbook planilhaOriginal)
     {
         Sheet sheet = planilhaOriginal.getSheetAt(0); // Pega a planilha 1 do arquivo Excel para trabalhar
+
         for (Row row : sheet) { //Para cada linha dentro da planilha faça:
             for (Cell cell : row) { //Para cada célula dentro da linha faça:
 
                 //TRATAMENTO DA INFORMAÇÃO
-                String valorOriginal = cell.getStringCellValue(); // Pega o valor da célula, sendo esse um valor númerico
+                String valorOriginal = cell.getStringCellValue(); // Pega o valor da célula, sendo esse uma string
                 if (valorOriginal.length()>0) { // Verifica se de fato existe um valor a ser verificado
                     String valorConvertido = SHA256(valorOriginal); // Pega o valor String e envia pra o método Conversao
 
@@ -66,20 +66,15 @@ public class Conversao {
     }
 
     private static void salvarTabela(File diretorioCompleto, @NotNull Workbook planilhaOriginal) throws IOException {
-//        try {
             String novoArquivo = diretorioCompleto + "/Convertido.xlsx"; // Aqui
+
             FileOutputStream arquivoFinal = new FileOutputStream(novoArquivo);//Aqui estamos criando o arquivo
             planilhaOriginal.write(arquivoFinal); //Aqui estamos escrevendo o arquivo
             planilhaOriginal.close();// Aqui fechamos a pasta
-//        }
-//        catch (Exception e){
-//            System.out.println("Não foi possível executar a solicitação favor verifique se o arquivo está aberto, se sim, após fechar-lo tente novamente");
-//            throw new IllegalAccessException();
-//        }
     }
 
     private static void abrirNovaTabela() throws IOException {
-        Desktop.getDesktop().open(new File( "C:/Users/lucas.jacintho/OneDrive - Iteris Consultoria e Software/Área de Trabalho/folder/Convertido.xlsx")); // Abrir o arquivo
+        Desktop.getDesktop().open(new File( "C:/Converter/Convertido.xlsx")); // Abrir o arquivo
     }
 
 }

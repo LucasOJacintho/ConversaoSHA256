@@ -33,7 +33,12 @@ https://pt.stackoverflow.com/questions/319679/como-salvar-arquivo-de-uma-pasta-e
 
 ### Trabalhar com planilhas
 
+https://www.devmedia.com.br/apache-poi-manipulando-documentos-em-java/31778
+https://www.baeldung.com/java-microsoft-excel
+
 ### Converter valores
+
+https://www.baeldung.com/sha-256-hashing-java
 
 ### Tratar erros
 
